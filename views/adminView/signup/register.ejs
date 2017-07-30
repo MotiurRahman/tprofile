@@ -1,0 +1,163 @@
+<%- contentFor('body') %>
+
+<form id="registerForm" class="form-horizontal" role="form" method="post">
+
+  <div class="form-group">
+  
+  <div id="showResult" role="alert"></div>
+    <h6 class="column-title"><i class="fa fa-user fa-2x blue"> Register Your Account</i></h6>
+
+    <label for="name">Name:*</label>
+    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+    <span class="red"></span>
+  </div>
+
+  <div class="form-group">
+    <label  for="email">E-mail:</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email" required>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password:*</label>
+    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your Password" required>
+    <span class="red"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="repassword">Confirm Password:*</label>
+    <input type="password" class="form-control" id="repassword" name="repassword" placeholder="Enter your Password again" required>
+    <span class="red"></span>
+  </div>
+ 
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+     <div class="form-group">
+      <label>
+        <input type="checkbox" id="check"> I would like to save my Data!
+      </label>
+    </div>
+
+    <button type="button" class="btn btn-primary btn-lg btn-block" id="insertingRegisterData"><i class="fa fa-spinner fa-spin"></i> Inserting Data</button>
+
+    <button type="button" id="registerDataInsert" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+  </div>
+</div>
+
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $("#insertingRegisterData").hide();
+
+  $(document).ready(function() {
+
+    $("#registerDataInsert").click(function() {
+
+
+      var name =  $('#name').val();
+      var email = $('#email').val();
+      var password =  $('#password').val();
+      var repassword =  $('#repassword').val();
+      
+
+      var content = {
+        "name" :name,
+        "email":email,
+        "password":password,
+       
+
+      };
+
+
+      if(name=="")
+      {
+        $("#name").focus();
+      }else if(email=="")
+      {
+       $("#email").focus();
+     }else if(password=="")
+     {
+      $("#password").focus();
+    }else if(repassword=="")
+     {
+      $("#repassword").focus();
+    }else if(repassword!==password)
+     {
+      alert("Password Does not match");
+    }else {
+
+     $.ajax({
+      url: '/reg_log',
+      type: 'POST',
+      dataType: 'json',
+                    //data: $("#email").val(),
+                    data: JSON.stringify(content),
+                    headers: {
+                      'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    success: function(data, textStatus, jQxhr) {
+
+                      $('#name').val("");
+                      $('#email').val("");
+                      $('#password').val("");
+                      $('#repassword').val("");
+
+                  
+
+
+                      $("#insertingRegisterData").hide();
+                      $("#registerDataInsert").show();
+
+                      if(data =="Registration has been inserted successfully")
+                      {
+
+                         $("#showResult").removeClass("alert alert-danger").addClass("alert alert-success").text(data);
+
+                         setTimeout(function(){window.location.replace("/admin/login")}, 2000);
+
+                        
+
+                      }else{
+                       $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(data);
+                     }
+
+
+
+                   },
+                   error: function(jqXhr, textStatus, errorThrown) {
+
+
+                     $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(errorThrown);
+                   }
+                 })
+     .done(function(reuslt) {
+
+      console.log(reuslt);
+                   // alert(reuslt);
+                    // if (reuslt != null) {
+                    //     var data = JSON.stringify(reuslt);
+                    //     $("#speakerName").val(reuslt.name).change();
+                    //     $("#lecture").val(reuslt.lecture).change();
+                    //     $('#title').val(reuslt.title);
+                    //     $('#url').val(reuslt.url);
+                    //     $("#type_id").val(reuslt.wasType).change();
+                    //     $("#wascatatory").val(reuslt.wasCatatory).change();
+
+                    // }
+
+                    //alert(reuslt.name);
+                  })
+     .fail(function() {
+      console.log("error");
+    })
+     .always(function() {
+      console.log("complete");
+    });
+
+   }
+ });
+  });
+
+</script>

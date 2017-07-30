@@ -1,0 +1,232 @@
+<form id="profileForm" class="form-horizontal" role="form" method="post">
+
+  <div class="form-group">
+    <h6 class="column-title"><i class="fa fa-user fa-2x blue"> Personal Information</i></h6>
+    <label for="name">Name:*</label>
+    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+    <span class="red"></span>
+  </div>
+
+  <div class="form-group">
+    <label  for="designation">Designation:</label>
+    <input type="text" class="form-control" id="designation" name="designation" placeholder="Enter your designation" required>
+
+  </div>
+  <div class="form-group">
+    <label  for="aboutMe">About Me:</label>
+    <textarea class="form-control" rows="5" id="aboutMe" name="aboutMe" required></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="employee_id">Employee ID:*</label>
+    <input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="Enter your Employee ID" required>
+    <span class="red"></span>
+  </div>
+  
+
+  <div class="form-group">
+    <label  for="department">Department:</label>
+    <input type="text" class="form-control" id="department" name="department" placeholder="Enter your department" required>
+  </div>
+
+
+  
+
+  <div class="form-group">
+    <label  for="phone">Phone:</label>
+    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter contact number" required>
+  </div>
+
+  <div class="form-group">
+    <label for="faculty">Faculty: *</label>
+    <input type="text" class="form-control" id="faculty" name="faculty" placeholder="Enter your faculty" required>  
+  </div>    
+
+
+  <div class="form-group">
+    <label for="teachingArea">Teaching Area:</label>
+    <textarea class="form-control" rows="5" id="teachingArea" name="teachingArea"></textarea>
+    <span class="red"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="membership">Membership:</label>
+    <textarea class="form-control" rows="5" id="membership" name="membership"></textarea>
+    <span class="red"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="image">Image URL:*</label>
+  <input type="url" class="form-control" id="image" name="image" placeholder="Enter your image URL" required>
+    <span class="red"></span>
+  </div>
+
+  <div class="form-group">
+    <label  for="email">E-mail:</label>
+    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email" required>
+  </div>
+
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+     <div class="form-group">
+      <label>
+        <input type="checkbox" id="check"> I would like to save my Data!
+      </label>
+    </div>
+
+    <button type="button" class="btn btn-primary btn-lg btn-block" id="insertingPersionalData"><i class="fa fa-spinner fa-spin"></i> Inserting Data</button>
+
+    <button type="button" id="persionalDataInsert" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+  </div>
+</div>
+
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $("#insertingPersionalData").hide();
+
+  $(document).ready(function() {
+
+    $("#persionalDataInsert").click(function() {
+
+
+      var name =  $('#name').val();
+      var designation = $('#designation').val();
+      var aboutMe =  $('#aboutMe').val();
+      var employee_id =  $('#employee_id').val();
+      var department = $('#department').val();
+      var phone =  $('#phone').val();
+      var faculty =  $('#faculty').val();
+      var teachingArea =  $('#teachingArea').val();
+      var membership = $('#membership').val();
+      var image =  $('#image').val();
+      var email =  $('#email').val();
+
+
+      var content = {
+        "name" :name,
+        "designation":designation,
+        "aboutMe":aboutMe,
+        "employee_id" :employee_id,
+        "department":department,
+        "phone":phone,
+        "faculty" :faculty,
+        "teachingArea":teachingArea,
+        "membership" :membership,
+        "image":image,
+        "email":email,
+
+
+      };
+
+
+      if(name=="")
+      {
+        $("#name").focus();
+      }else if(designation=="")
+      {
+       $("#designation").focus();
+     }else if(aboutMe=="")
+     {
+      $("#aboutMe").focus();
+    }else if(department=="")
+    {
+      $("#department").focus();
+    }else if(phone=="")
+    {
+      $("#phone").focus();
+    }else if(faculty=="")
+    {
+      $("#faculty").focus();
+    }else if(image=="")
+    {
+      $("#image").focus();
+    }else if(email=="")
+    {
+      $("#email").focus();
+    }else {
+
+     $.ajax({
+      url: '/admin/persionalDataInsert',
+      type: 'POST',
+      dataType: 'json',
+                    //data: $("#email").val(),
+                    data: JSON.stringify(content),
+                    headers: {
+                      'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    success: function(data, textStatus, jQxhr) {
+
+                      $('#name').val("");
+                      $('#designation').val("");
+                      $('#aboutMe').val("");
+
+                      $('#employee_id').val("");
+                      $('#designation').val("");
+                      $('#department').val("");
+
+
+                      $('#phone').val("");
+                      $('#faculty').val("");
+                      $('#teachingArea').val("");
+
+                      $('#membership').val("");
+                      $('#image').val("");
+                      $('#email').val("");
+
+
+
+                      $("#insertingPersionalData").hide();
+                      $("#persionalDataInsert").show();
+
+                      if(data =="Persional Info has been inserted successfully")
+                      {
+
+                        $("#showResult").removeClass("alert alert-danger").addClass("alert alert-success").text(data);
+
+                      }else{
+                       $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(data);
+                     }
+
+
+
+                   },
+                   error: function(jqXhr, textStatus, errorThrown) {
+
+
+                     $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(errorThrown);
+                   }
+                 })
+     .done(function(reuslt) {
+
+      console.log(reuslt);
+                   // alert(reuslt);
+                    // if (reuslt != null) {
+                    //     var data = JSON.stringify(reuslt);
+                    //     $("#speakerName").val(reuslt.name).change();
+                    //     $("#lecture").val(reuslt.lecture).change();
+                    //     $('#title').val(reuslt.title);
+                    //     $('#url').val(reuslt.url);
+                    //     $("#type_id").val(reuslt.wasType).change();
+                    //     $("#wascatatory").val(reuslt.wasCatatory).change();
+
+                    // }
+
+                    //alert(reuslt.name);
+                  })
+     .fail(function() {
+      console.log("error");
+    })
+     .always(function() {
+      console.log("complete");
+    });
+
+   }
+ });
+  });
+
+</script>

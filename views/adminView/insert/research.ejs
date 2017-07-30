@@ -1,0 +1,137 @@
+ <form id="profileForm" class="form-horizontal" role="form" method="post">
+
+      <div class="form-group">
+        <h6 class="column-title"><i class="fa fa-user fa-2x blue">Research</i></h6>
+        <label for="re_title">Research title:*</label>
+        <input type="text" class="form-control" id="re_title" name="re_title" placeholder="Enter your Research Title" required>
+        <span class="red"></span>
+      </div>
+
+      <div class="form-group">
+
+        <label for="re_description">Description:</label>
+        <textarea class="form-control" rows="5" id="re_description" name="re_description"></textarea>
+        <span class="red"></span>
+      </div>
+
+     
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+         <div class="form-group">
+          <label>
+            <input type="checkbox" id="check"> I would like to save my Data!
+          </label>
+        </div>
+
+         <button type="button" class="btn btn-primary btn-lg btn-block" id="insertingResearchData"><i class="fa fa-spinner fa-spin"></i> Inserting Data</button>
+
+
+        <button type="button" id="researchDataInsert" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+      </div>
+    </div>
+
+  </form>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <script type="text/javascript">
+ 
+   $("#insertingResearchData").hide();
+  
+  $(document).ready(function() {
+  
+
+    $("#researchDataInsert").click(function() {
+       
+
+        var re_title =  $('#re_title').val();
+        var re_description = $('#re_description').val();
+       
+         //alert(title);
+      
+        var content = {
+          "re_title" :re_title,
+          "re_description":re_description,
+         
+          
+        };
+
+        if(re_title=="")
+        {
+          $("#re_title").focus();
+        }else if(re_description=="")
+        {
+         $("#re_description").focus();
+       
+      }else{
+
+       $.ajax({
+        url: '/admin/researchDataInsert',
+        type: 'POST',
+        dataType: 'json',
+                    //data: $("#email").val(),
+                    data: JSON.stringify(content),
+                    headers: {
+                      'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    success: function(data, textStatus, jQxhr) {
+
+                        $('#re_title').val("");
+                        $('#re_description').val("");
+
+
+                     $("#insertingResearchData").hide();
+                     $("#researchDataInsert").show();
+
+                     if(data =="Reserch Info has been inserted successfully")
+                     {
+                      
+                      $("#showResult").removeClass("alert alert-danger").addClass("alert alert-success").text(data);
+
+                     }else{
+                     $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(data);
+                    }
+
+
+
+                  },
+                  error: function(jqXhr, textStatus, errorThrown) {
+                       
+            
+                       $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(errorThrown);
+                      }
+                    })
+       .done(function(reuslt) {
+
+                    console.log(reuslt);
+                   // alert(reuslt);
+                    // if (reuslt != null) {
+                    //     var data = JSON.stringify(reuslt);
+                    //     $("#speakerName").val(reuslt.name).change();
+                    //     $("#lecture").val(reuslt.lecture).change();
+                    //     $('#title').val(reuslt.title);
+                    //     $('#url').val(reuslt.url);
+                    //     $("#type_id").val(reuslt.wasType).change();
+                    //     $("#wascatatory").val(reuslt.wasCatatory).change();
+
+                    // }
+
+                    //alert(reuslt.name);
+                  })
+       .fail(function() {
+        console.log("error");
+      })
+       .always(function() {
+        console.log("complete");
+      });
+
+     }
+
+
+
+
+   });
+});
+
+</script>

@@ -1,0 +1,147 @@
+<%- contentFor('body') %>
+
+<form id="registerForm" class="form-horizontal" role="form" method="post">
+
+  <div class="form-group">
+  
+  <div id="showResult" role="alert"></div>
+    <h6 class="column-title"><i class="fa fa-user fa-2x blue"> Change Your Password</i></h6>
+
+    <label for="cur_password">Enter your Current Password:*</label>
+    <input type="password" class="form-control" id="cur_password" name="cur_password" placeholder="Enter your name" required>
+    <span class="red"></span>
+  </div>
+
+  <div class="form-group">
+    <label  for="new_password">Enter your New Password:</label>
+    <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Enter your New password" required>
+  </div>
+
+  <div class="form-group">
+    <label for="r_new_password">Enter your New Password Again:*</label>
+    <input type="password" class="form-control" id="r_new_password" name="r_new_password" placeholder="Enter your New Password Again" required>
+    <span class="red"></span>
+  </div>
+
+ 
+    <button type="button" class="btn btn-primary btn-lg btn-block" id="changingPasswordData"><i class="fa fa-spinner fa-spin"></i> Inserting Data</button>
+
+    <button type="button" id="passwordDataChange" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+  </div>
+</div>
+
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $("#changingPasswordData").hide();
+
+  $(document).ready(function() {
+
+    $("#passwordDataChange").click(function() {
+
+
+      var cur_password =  $('#cur_password').val();
+      var new_password = $('#new_password').val();
+      var r_new_password =  $('#r_new_password').val();
+      
+      
+
+      var content = {
+        "cur_password" :cur_password,
+        "new_password":new_password,
+        "r_new_password":r_new_password,
+       
+
+      };
+
+
+      if(cur_password=="")
+      {
+        $("#cur_password").focus();
+      }else if(new_password=="")
+      {
+       $("#new_password").focus();
+     }else if(r_new_password=="")
+     {
+      $("#r_new_password").focus();
+    }else if(new_password!=r_new_password)
+     {
+      alert("New Password Does Not Match");
+    }
+    else {
+
+     $.ajax({
+      url: '/setting',
+      type: 'POST',
+      dataType: 'json',
+                    //data: $("#email").val(),
+                    data: JSON.stringify(content),
+                    headers: {
+                      'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    success: function(data, textStatus, jQxhr) {
+
+                      $('#cur_password').val("");
+                      $('#new_password').val("");
+                      $('#r_new_password').val("");
+                     
+                  
+
+
+                      $("#changingPasswordData").hide();
+                      $("#passwordDataChange").show();
+
+                      if(data =="Password has been chnaged")
+                      {
+
+                         $("#showResult").removeClass("alert alert-danger").addClass("alert alert-success").text(data);
+
+                         setTimeout(function(){window.location.replace("/admin/login")}, 2000);
+
+                        
+
+                      }else{
+                       $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(data);
+                     }
+
+
+
+                   },
+                   error: function(jqXhr, textStatus, errorThrown) {
+
+
+                     $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(errorThrown);
+                   }
+                 })
+     .done(function(reuslt) {
+
+      console.log(reuslt);
+                   // alert(reuslt);
+                    // if (reuslt != null) {
+                    //     var data = JSON.stringify(reuslt);
+                    //     $("#speakerName").val(reuslt.name).change();
+                    //     $("#lecture").val(reuslt.lecture).change();
+                    //     $('#title').val(reuslt.title);
+                    //     $('#url').val(reuslt.url);
+                    //     $("#type_id").val(reuslt.wasType).change();
+                    //     $("#wascatatory").val(reuslt.wasCatatory).change();
+
+                    // }
+
+                    //alert(reuslt.name);
+                  })
+     .fail(function() {
+      console.log("error");
+    })
+     .always(function() {
+      console.log("complete");
+    });
+
+   }
+ });
+  });
+
+</script>

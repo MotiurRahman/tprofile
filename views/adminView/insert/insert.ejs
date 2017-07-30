@@ -1,0 +1,81 @@
+<%- contentFor('body') %>
+<!-- Page Content -->
+<div class="container">
+
+
+  <div class="container"><h2>Department of Information and Communication Technology</h2> <br>
+ <div class="col-md-6 col-md-offset-3" style="text-align: center;">
+        <div id="showResult" role="alert"></div>
+  </div>
+
+
+  </div>
+
+  <div id="exTab2" class="container"> 
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a  href="#1" data-toggle="tab">Personal Information</a>
+      </li>
+      <li><a href="#2" data-toggle="tab">Academic Qualification</a>
+      </li>
+      <li><a href="#3" data-toggle="tab">Training Experience</a></li>
+      <li><a href="#4" data-toggle="tab">Research</a></li>
+      <li><a href="#5" data-toggle="tab">Publication</a></li>
+      <li><a href="#6" data-toggle="tab">Award and Scholarship</a></li>
+      <li><a href="#8" data-toggle="tab">Pre Employment</a></li>
+
+    </ul>
+
+    <div class="tab-content">
+     <!-- Start Personal Information -->
+           <div class="tab-pane active" id="1">
+             <% include ./persionalInfo %>
+           </div>  <!-- End Personal Information -->
+
+
+
+           <!-- Academic Qualification -->
+           <div class="tab-pane" id="2">
+            <% include ./academic %>
+
+          </div>
+          <!-- End Academic Qualification -->
+
+          <!-- Start Training Experience -->
+          <div class="tab-pane" id="3">
+           <% include ./training %>
+         </div> <!-- End Training Experience -->
+
+         <!-- Start Research -->
+         <div class="tab-pane" id="4">
+          <% include ./research %>
+
+        </div> <!-- End Start Research -->
+
+
+        <!-- Start Publication-->
+        <div class="tab-pane" id="5">
+
+         <% include ./publication %>
+       </div> <!-- End Publication -->
+
+       <!-- Start Award and Scholarship -->
+       <div class="tab-pane" id="6">
+         <% include ./award %>
+       </div> <!-- End Start Award and Scholarship -->
+
+       <!-- Start Previous Employment -->
+       <div class="tab-pane" id="8">
+        <% include ./employment %>
+      </div> <!-- End Previous Employment -->
+
+
+
+
+    </div>  <!-- End tab-content -->
+</div> <!-- End Main tab-content -->
+
+
+</div> <!-- End main container -->
+
+

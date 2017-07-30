@@ -1,0 +1,144 @@
+  
+ <form id="academicForm" class="form-horizontal" role="form" method="post">
+ 
+      <div class="form-group">
+        <h6 class="column-title"><i class="fa fa-user fa-2x blue">Academic Qualification</i></h6>
+        <label for="degree">Obtained Degree:*</label>
+        <input type="text" class="form-control" id="degree" name="degree" placeholder="Enter your Degree name" required>
+        <span class="red"></span>
+      </div>
+
+      <div class="form-group">
+
+        <label for="institute">Institute Name:*</label>
+        <input type="text" class="form-control" id="institute" name="institute" placeholder="Enter your institute name" required>
+        <span class="red"></span>
+      </div>
+
+      <div class="form-group">
+        <label  for="passYear">Passing Year:</label>
+
+      <input type="text" class="form-control" id="passYear" name="passYear" placeholder="Enter your Pass Year">
+
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+         <div class="form-group">
+          <label>
+            <input type="checkbox" id="check"> I would like to save my Data!
+          </label>
+        </div>
+
+         <button type="button" class="btn btn-primary btn-lg btn-block" id="insertingAcademicData"><i class="fa fa-spinner fa-spin"></i> Inserting Data</button>
+
+        <button type="button" id="academicInsertData" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+      </div>
+    </div>
+
+  </form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <script type="text/javascript">
+ 
+   $("#insertingAcademicData").hide();
+  
+  $(document).ready(function() {
+  
+
+    $("#academicInsertData").click(function() {
+       
+
+        var degree =  $('#degree').val();
+        var institute = $('#institute').val();
+        var passYear =  $('#passYear').val();
+         
+      
+        var content = {
+          "degree" :degree,
+          "institute":institute,
+          "passYear":passYear,
+          
+        };
+
+        if(degree=="")
+        {
+          $("#degree").focus();
+        }else if(institute=="")
+        {
+         $("#institute").focus();
+       }else if(passYear=="")
+       {
+        $("#passYear").focus();
+      }else{
+
+       $.ajax({
+        url: '/admin/academicInsert',
+        type: 'POST',
+        dataType: 'json',
+                    //data: $("#email").val(),
+                    data: JSON.stringify(content),
+                    headers: {
+                      'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    success: function(data, textStatus, jQxhr) {
+
+                        $('#degree').val("");
+                      $('#institute').val("");
+                      $('#passYear').val("");
+
+                     $("#insertingAcademicData").hide();
+                     $("#academicInsertData").show();
+
+                     if(data =="Academic Info has been inserted successfully")
+                     {
+                      
+                      $("#showResult").removeClass("alert alert-danger").addClass("alert alert-success").text(data);
+
+                     }else{
+                     $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(data);
+                    }
+
+
+
+                  },
+                  error: function(jqXhr, textStatus, errorThrown) {
+                       
+            
+                       $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(errorThrown);
+                      }
+                    })
+       .done(function(reuslt) {
+
+                    console.log(reuslt);
+                   // alert(reuslt);
+                    // if (reuslt != null) {
+                    //     var data = JSON.stringify(reuslt);
+                    //     $("#speakerName").val(reuslt.name).change();
+                    //     $("#lecture").val(reuslt.lecture).change();
+                    //     $('#title').val(reuslt.title);
+                    //     $('#url').val(reuslt.url);
+                    //     $("#type_id").val(reuslt.wasType).change();
+                    //     $("#wascatatory").val(reuslt.wasCatatory).change();
+
+                    // }
+
+                    //alert(reuslt.name);
+                  })
+       .fail(function() {
+        console.log("error");
+      })
+       .always(function() {
+        console.log("complete");
+      });
+
+     }
+
+
+
+
+   });
+});
+
+</script>

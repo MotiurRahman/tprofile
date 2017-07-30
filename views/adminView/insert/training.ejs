@@ -1,0 +1,181 @@
+ <form id="profileForm" class="form-horizontal" role="form" method="post">
+
+  <div class="form-group">
+    <h6 class="column-title"><i class="fa fa-user fa-2x blue">Training Experience</i></h6>
+    <label for="title">Training Title:*</label>
+    <input type="text" class="form-control" id="title" name="title" placeholder="Enter your Training Title" required>
+    <span class="red"></span>
+  </div>
+
+  <div class="form-group">
+
+    <label for="topics">Topics Covered:*</label>
+    <input type="text" class="form-control" id="topics" name="topics" placeholder="Enter your Topics Name " required>
+    <span class="red"></span>
+  </div>
+
+  <div class="form-group">
+    <label  for="tYear">Training Year:</label>
+
+    <input type="Date" class="form-control" id="tYear" name="tYear" placeholder="Enter your Training Year">
+
+  </div>
+
+  <div class="form-group">
+    <label  for="designation">Country:</label>
+
+    <input type="text" class="form-control" id="country" name="country" placeholder="Enter your country name">
+
+  </div>
+
+  <div class="form-group">
+    <label  for="t_institute">Institute:</label>
+
+    <input type="text" class="form-control" id="t_institute" name="t_institute" placeholder="Enter your institute name">
+
+  </div>
+
+  <div class="form-group">
+    <label  for="t_duration">Duration:</label>
+
+  <input type="text" class="form-control" id="t_duration" name="t_duration" placeholder="Enter Training Duration">
+
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+     <div class="form-group">
+      <label>
+        <input type="checkbox" id="check"> I would like to save my Data!
+      </label>
+    </div>
+
+    <button type="button" class="btn btn-primary btn-lg btn-block" id="insertingTrainingData"><i class="fa fa-spinner fa-spin"></i> Inserting Data</button>
+
+
+    <button type="button" id="trainingDataInsert" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+  </div>
+</div>
+
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+$("#insertingTrainingData").hide();
+
+  $(document).ready(function() {
+
+    $("#trainingDataInsert").click(function() {
+
+      //alert("hello");
+      var title =  $('#title').val();
+      var topics = $('#topics').val();
+      var tYear =  $('#tYear').val();
+      var country =  $('#country').val();
+      var t_institute = $('#t_institute').val();
+      var t_duration =  $('#t_duration').val();
+
+
+      var content = {
+        "title" :title,
+        "topics":topics,
+        "tYear":tYear,
+        "country" :country,
+        "t_institute":t_institute,
+        "t_duration":t_duration
+      };
+
+
+      if(title=="")
+      {
+        $("#title").focus();
+      }else if(topics=="")
+      {
+       $("#topics").focus();
+     }else if(tYear=="")
+     {
+      $("#tYear").focus();
+    }else if(country=="")
+    {
+      $("#country").focus();
+    }else if(t_institute=="")
+    {
+      $("#t_institute").focus();
+    }else if(t_duration=="")
+    {
+      $("#t_duration").focus();
+    }else {
+
+     $.ajax({
+      url: '/admin/trainingExperience',
+      type: 'POST',
+      dataType: 'json',
+                    //data: $("#email").val(),
+                    data: JSON.stringify(content),
+                    headers: {
+                      'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    success: function(data, textStatus, jQxhr) {
+
+                      $('#title').val("");
+                      $('#topics').val("");
+                      $('#tYear').val("");
+
+                      $('#country').val("");
+                      $('#t_institute').val("");
+                      $('#t_duration').val("");
+
+
+
+
+                      $("#insertingTrainingData").hide();
+                      $("#trainingDataInsert").show();
+
+                      if(data =="Training Info has been inserted successfully")
+                      {
+
+                        $("#showResult").removeClass("alert alert-danger").addClass("alert alert-success").text(data);
+
+                      }else{
+                       $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(data);
+                     }
+
+
+
+                   },
+                   error: function(jqXhr, textStatus, errorThrown) {
+
+
+                     $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(errorThrown);
+                   }
+                 })
+     .done(function(reuslt) {
+
+      console.log(reuslt);
+                   // alert(reuslt);
+                    // if (reuslt != null) {
+                    //     var data = JSON.stringify(reuslt);
+                    //     $("#speakerName").val(reuslt.name).change();
+                    //     $("#lecture").val(reuslt.lecture).change();
+                    //     $('#title').val(reuslt.title);
+                    //     $('#url').val(reuslt.url);
+                    //     $("#type_id").val(reuslt.wasType).change();
+                    //     $("#wascatatory").val(reuslt.wasCatatory).change();
+
+                    // }
+
+                    //alert(reuslt.name);
+                  })
+     .fail(function() {
+      console.log("error");
+    })
+     .always(function() {
+      console.log("complete");
+    });
+
+   }
+ });
+  });
+
+</script>

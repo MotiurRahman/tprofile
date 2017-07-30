@@ -1,0 +1,151 @@
+
+<form id="employmentForm" class="form-horizontal" role="form" method="post">
+
+        <div class="form-group">
+          <h6 class="column-title"><i class="fa fa-user fa-2x blue"> Employment</i></h6>
+          <label for="empTitle">Title:*</label>
+          <input type="text" class="form-control" id="empTitle" name="empTitle" placeholder="Enter your Employment name" required>
+          <span class="red"></span>
+        </div>
+
+        <div class="form-group">
+
+          <label for="empDesignation">Designation:*</label>
+          <input type="text" class="form-control" id="empDesignation" name="empDesignation" placeholder="Enter your Designation" required>
+          <span class="red"></span>
+        </div>
+
+        <div class="form-group">
+          <label  for="empInstitute">Institute:</label>
+
+          <input type="text" class="form-control" id="empInstitute" name="empInstitute" placeholder="Enter your Institute Name">
+
+        </div>
+
+        <div class="form-group">
+          <label  for="empDate">Date range:</label>
+
+          <input type="text" class="form-control" id="empDate" name="empDate" placeholder="Example 2 years">
+
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+           <div class="form-group">
+            <label>
+              <input type="checkbox" id="check"> I would like to save my Data!
+            </label>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-lg btn-block" id="insertingPreemployment"><i class="fa fa-spinner fa-spin"></i> Inserting Data</button>
+
+          <button type="button" id="employmentDataInsert" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+        </div>
+      </div>
+
+    </form>
+
+    <script type="text/javascript">
+  $("#insertingPreemployment").hide();
+
+  $(document).ready(function() {
+
+    $("#employmentDataInsert").click(function() {
+
+
+      var empTitle =  $('#empTitle').val();
+      var empDesignation = $('#empDesignation').val();
+      var empInstitute =  $('#empInstitute').val();
+      var empDate =  $('#empDate').val();
+
+      var content = {
+        "empTitle" :empTitle,
+        "empDesignation":empDesignation,
+        "empInstitute":empInstitute,
+        "empDate" :empDate,
+      };
+
+
+      if(empTitle=="")
+      {
+        $("#empTitle").focus();
+      }else if(empDesignation=="")
+      {
+       $("#empDesignation").focus();
+     }else if(empInstitute=="")
+     {
+      $("#empInstitute").focus();
+    }else if(empDate=="")
+    {
+      $("#empDate").focus();
+    }else {
+
+     $.ajax({
+      url: '/admin/employmentDataInsert',
+      type: 'POST',
+      dataType: 'json',
+                    //data: $("#email").val(),
+                    data: JSON.stringify(content),
+                    headers: {
+                      'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    success: function(data, textStatus, jQxhr) {
+
+                      $('#empTitle').val("");
+                      $('#empDesignation').val("");
+                      $('#empInstitute').val("");
+                      $('#empDate').val("");
+                     
+
+
+                      $("#insertingPreemployment").hide();
+                      $("#employmentDataInsert").show();
+
+                      if(data =="Employment Info has been inserted successfully")
+                      {
+
+                        $("#showResult").removeClass("alert alert-danger").addClass("alert alert-success").text(data);
+
+                      }else{
+                       $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(data);
+                     }
+
+
+
+                   },
+                   error: function(jqXhr, textStatus, errorThrown) {
+
+
+                     $("#showResult").removeClass("alert alert-success").addClass("alert alert-danger").text(errorThrown);
+                   }
+                 })
+     .done(function(reuslt) {
+
+      console.log(reuslt);
+                   // alert(reuslt);
+                    // if (reuslt != null) {
+                    //     var data = JSON.stringify(reuslt);
+                    //     $("#speakerName").val(reuslt.name).change();
+                    //     $("#lecture").val(reuslt.lecture).change();
+                    //     $('#title').val(reuslt.title);
+                    //     $('#url').val(reuslt.url);
+                    //     $("#type_id").val(reuslt.wasType).change();
+                    //     $("#wascatatory").val(reuslt.wasCatatory).change();
+
+                    // }
+
+                    //alert(reuslt.name);
+                  })
+     .fail(function() {
+      console.log("error");
+    })
+     .always(function() {
+      console.log("complete");
+    });
+
+   }
+ });
+  });
+
+</script>
