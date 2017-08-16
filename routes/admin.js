@@ -12,56 +12,6 @@ var registration = require('./../libs/registration');
 var autho = require('./../libs/autho');
 
 /* GET home page. */
-router.get('/login', function(req, res, next) {
-    res.render('adminView/signup/login');
-});
-
-
-router.post('/login', function(req, res, next) {
-    // res.render('admin/login');
-
-    //////////////
-
-    var email = req.body.email;
-    var password = req.body.password;
-
-
-    console.log("email:" + email);
-    console.log("password:" + password);
-
-
-    registration.find({ email: email, password: password }).exec(function(err, docs) {
-
-        if (err) {
-            res.json(err)
-        } else {
-
-            if (docs.length > 0) {
-                req.session.login = true;
-
-                var Name = docs[0].name;
-                var id = docs[0]._id;
-                req.session.id = id;
-                req.session.name = Name;
-                console.log("Name:" + Name);
-                res.redirect("/");
-
-            } else {
-
-                next("Please try again");
-
-            }
-
-
-
-
-        }
-
-    });
-
-
-    //////////////
-});
 
 
 

@@ -3,7 +3,7 @@ var router = express.Router();
 
 router.get('/', function(req, res, next) {
     req.session = null;
-    res.redirect('admin/login');
+    res.redirect('/login');
     console.log("logout");
 });
 
