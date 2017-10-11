@@ -4,8 +4,8 @@ var db = require('./../libs/db.js');
 var mongoosePaginate = require('mongoose-paginate');
 
 var researchInfo = new db.Schema({
-    title: String,
-    description: String,
+    re_title: String,
+    re_description: String,
     register_id: String,
    
    

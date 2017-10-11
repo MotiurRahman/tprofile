@@ -110,9 +110,10 @@ router.get('/profile/:id/:name', function(req, res, next) {
 
                                                             if (req.session.login) {
 
-                                                                res.render('teachersProfile', { pertional: pertionalInfo, academic: academicInfo, training:trainingInfo,research: researchInfo, publication:publicationInfo, award: awardInfo, publication:publicationInfo, name: req.session.name, layout: "ad_layout" });
+
+                                                                res.render('teachersProfile', { pertional: pertionalInfo, academic: academicInfo, training:trainingInfo,researchData: researchInfo, publication:publicationInfo, award: awardInfo, publication:publicationInfo, name: req.session.name, layout: "ad_layout" });
                                                             } else {
-                                                                res.render('teachersProfile', { pertional: pertionalInfo, academic: academicInfo, training:trainingInfo,research: researchInfo, publication:publicationInfo, award: awardInfo, publication:publicationInfo ,name: req.session.name});
+                                                                res.render('teachersProfile', { pertional: pertionalInfo, academic: academicInfo, training:trainingInfo,researchData: researchInfo, publication:publicationInfo, award: awardInfo, publication:publicationInfo ,name: req.session.name});
                                                             }
 
 

@@ -1,0 +1,46 @@
+ <div role="tabpanel" class="tab-pane active" id="academicQualification">
+            <div class="panel-body">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Degree</th>
+            <th>Institute</th>
+            <th>Passing Year</th>
+
+
+
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+
+
+
+
+          <% for(var i=0; i<academic.length; i++) { %>
+
+
+          <tr>
+
+          <td><%=academic[i].degree%></td>
+            <td><%=academic[i].institute%></td>
+            <td><%=academic[i].passYear%></td>
+
+          </tr>
+
+          <%} %>
+
+
+
+
+        </tbody>
+      </table>
+    </div>
+    <div class="text-right">
+      <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+             
+
+
+            </div>  <!-- end tab panel -->          

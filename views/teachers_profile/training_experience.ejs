@@ -1,0 +1,54 @@
+ <div role="tabpanel" class="tab-pane active" id="trainingExperience">
+   <div class="panel-body">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Topics</th>
+            <th>Others</th>
+
+
+
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+
+
+
+
+          <% for(var i=0; i<training.length; i++) { %>
+
+
+          <tr>
+
+          <td><%=training[i].title%></td>
+            <td><%=training[i].topics%></td>
+            <td>Institute:<%=training[i].t_institute%><br>
+
+              Duration:<%=training[i].t_duration%>,
+              Country:<%=training[i].country%>,<br>
+              Training Year:<%=training[i].tYear%>
+
+
+            </td>
+
+
+
+          </tr>
+
+          <%} %>
+
+
+
+
+        </tbody>
+      </table>
+    </div>
+    <div class="text-right">
+      <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
+
+
+</div>  <!-- end tab panel -->          
