@@ -7,7 +7,8 @@ var preEmployment = new db.Schema({
     empTitle: String,
     empDesignation: String,
     empInstitute: String,
-    empDate: String,
+    empStartDate: String,
+    empEndDate: String,
     register_id: String,    
 });
 

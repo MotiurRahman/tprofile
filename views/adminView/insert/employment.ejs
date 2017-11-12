@@ -22,10 +22,18 @@
 
         </div>
 
+        
         <div class="form-group">
-          <label  for="empDate">Date range:</label>
+          <label  for="empDate">Start Date:</label>
 
-          <input type="text" class="form-control" id="empDate" name="empDate" placeholder="Example 2 years">
+          <input type="Date" class="form-control" id="empStartDate" name="empStartDate" placeholder="Start Date">
+
+        </div>
+
+        <div class="form-group">
+          <label  for="empDate">End Date:</label>
+
+          <input type="Date" class="form-control" id="empEndDate" name="empEndDate" placeholder="End Date">
 
         </div>
 
@@ -57,13 +65,15 @@
       var empTitle =  $('#empTitle').val();
       var empDesignation = $('#empDesignation').val();
       var empInstitute =  $('#empInstitute').val();
-      var empDate =  $('#empDate').val();
+      var empStartDate =  $('#empStartDate').val();
+      var empEndDate =  $('#empEndDate').val();
 
       var content = {
         "empTitle" :empTitle,
         "empDesignation":empDesignation,
         "empInstitute":empInstitute,
-        "empDate" :empDate,
+        "empStartDate" :empStartDate,
+        "empEndDate" :empEndDate,
       };
 
 
@@ -76,9 +86,12 @@
      }else if(empInstitute=="")
      {
       $("#empInstitute").focus();
-    }else if(empDate=="")
+    }else if(empStartDate=="")
     {
-      $("#empDate").focus();
+      $("#empStartDate").focus();
+    }else if(empEndDate=="")
+    {
+      $("#empEndDate").focus();
     }else {
 
      $.ajax({
@@ -95,7 +108,8 @@
                       $('#empTitle').val("");
                       $('#empDesignation').val("");
                       $('#empInstitute').val("");
-                      $('#empDate').val("");
+                      $('#empStartDate').val("");
+                      $('#empEndDate').val("");
                      
 
 

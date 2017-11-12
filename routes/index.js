@@ -111,9 +111,11 @@ router.get('/profile/:id/:name', function(req, res, next) {
                                                             if (req.session.login) {
 
 
-                                                                res.render('teachersProfile', { pertional: pertionalInfo, academic: academicInfo, training:trainingInfo,researchData: researchInfo, publication:publicationInfo, award: awardInfo, publication:publicationInfo, name: req.session.name, layout: "ad_layout" });
+                                                               res.render('teachersProfile', { pertional: pertionalInfo, academic: academicInfo, training:trainingInfo,researchData: researchInfo, publication:publicationInfo, award: awardInfo, employment:employmentInfo, name: req.session.name, layout: "ad_layout" });
+                                                            //res.json(pertionalInfo);
                                                             } else {
-                                                                res.render('teachersProfile', { pertional: pertionalInfo, academic: academicInfo, training:trainingInfo,researchData: researchInfo, publication:publicationInfo, award: awardInfo, publication:publicationInfo ,name: req.session.name});
+                                                                res.render('teachersProfile', { pertional: pertionalInfo, academic: academicInfo, training:trainingInfo,researchData: researchInfo, publication:publicationInfo, award: awardInfo, employment:employmentInfo ,name: req.session.name});
+                                                            //res.json(pertionalInfo);
                                                             }
 
 

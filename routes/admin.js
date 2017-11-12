@@ -362,13 +362,15 @@ router.post('/employmentDataInsert', function(req, res, next) {
     var empTitle = req.body.empTitle;
     var empDesignation = req.body.empDesignation;
     var empInstitute = req.body.empInstitute;
-    var empDate = req.body.empDate;
+    var empStartDate = req.body.empStartDate;
+    var empEndDate = req.body.empEndDate;
 
 
     console.log("empTitle:" + empTitle);
     console.log("empDesignation:" + empDesignation);
     console.log("empInstitute:" + empInstitute);
-    console.log("empDate:" + empDate);
+    console.log("empStartDate:" + empStartDate);
+    console.log("empEndDate:" + empEndDate);
     console.log("ID:" + req.session.id);
 
 
@@ -376,7 +378,8 @@ router.post('/employmentDataInsert', function(req, res, next) {
         empTitle: empTitle,
         empDesignation: empDesignation,
         empInstitute: empInstitute,
-        empDate: empDate,
+        empStartDate: empStartDate,
+        empEndDate:empEndDate,
         register_id: req.session.id
 
 

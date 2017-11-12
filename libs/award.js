@@ -7,7 +7,7 @@ var award = new db.Schema({
     aw_title: String,
     aw_institute: String,
     aw_country: String,
-    aw_date: Date,
+    aw_date: String,
     register_id: String,   
 });
 
