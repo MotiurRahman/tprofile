@@ -6,6 +6,9 @@
           <tr>
             <th>NO.</th>
             <th>Description</th>
+            <% if(login){ %>
+           <th>ID</th>
+              <% } %>
            
 
 
@@ -29,9 +32,10 @@
               <%=award[i].aw_country%>,
               <%=award[i].aw_date%>,
             
-
-
             </td>
+            <% if(login){ %>
+           <th><%=award[i]._id%></th>
+              <% } %>
             
 
 

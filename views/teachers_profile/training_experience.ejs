@@ -7,6 +7,10 @@
             <th>Title</th>
             <th>Topics</th>
             <th>Others</th>
+             <% if(login){ %>
+           <th>ID</th>
+              <% } %>
+
 
 
 
@@ -32,6 +36,9 @@
 
 
             </td>
+            <% if(login){ %>
+           <th><%=training[i]._id%></th>
+              <% } %>
 
 
 

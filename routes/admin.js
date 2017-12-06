@@ -4,7 +4,7 @@ var router = express.Router();
 var persionalinfo = require('./../libs/persionalInfo');
 var academic = require('./../libs/academic');
 var training = require('./../libs/trainingExperience');
-var research = require('./../libs/research');
+var researchInfo = require('./../libs/research');
 var publication = require('./../libs/publication');
 var award = require('./../libs/award');
 var employment = require('./../libs/preEmployment');
@@ -415,7 +415,23 @@ router.get('/update', function(req, res, next) {
 });
 
 router.get('/delete', function(req, res, next) {
-    res.render('adminView/delete');
+    res.render('adminView/delete', {name: req.session.name, login: req.session.login,layout:"ad_layout"});
+});
+
+router.post('/delete/:collection/:id', function(req, res, next) {
+   var collectionName = req.params.collection;
+    var id = req.params.id;
+    console.log("collectionName:" + collectionName);
+    console.log("id:" + id);
+
+   award.remove({ _id: id}, function(err) {
+    if (!err) {
+           res.json("successfully Deleted");
+    }
+    else {
+           res.json(err);
+    }
+});
 });
 
 

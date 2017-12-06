@@ -5,139 +5,85 @@
 
   <div class="container"><h2>Department of Information and Communication Technology</h2></div>
 
- <form id="bookForm" method="post" class="form-horizontal">
-    <div class="form-group">
-        <label class="col-xs-1 control-label">Book</label>
-        <div class="col-xs-4">
-            <input type="text" class="form-control" name="book[0].title" placeholder="Title" />
-        </div>
-        <div class="col-xs-4">
-            <input type="text" class="form-control" name="book[0].isbn" placeholder="ISBN" />
-        </div>
-        <div class="col-xs-2">
-            <input type="text" class="form-control" name="book[0].price" placeholder="Price" />
-        </div>
-        <div class="col-xs-1">
-            <button type="button" class="btn btn-default addButton"><i class="fa fa-plus"></i></button>
-        </div>
-    </div>
 
-    <!-- The template for adding new field -->
-    <div class="form-group hide" id="bookTemplate">
-        <div class="col-xs-4 col-xs-offset-1">
-            <input type="text" class="form-control" name="title" placeholder="Title" />
-        </div>
-        <div class="col-xs-4">
-            <input type="text" class="form-control" name="isbn" placeholder="ISBN" />
-        </div>
-        <div class="col-xs-2">
-            <input type="text" class="form-control" name="price" placeholder="Price" />
-        </div>
-        <div class="col-xs-1">
-            <button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>
-        </div>
-    </div>
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Delete info</h3>
+            </div>
+            <div class="panel-body">
+                <form role="form" method="post">
+                    <fieldset>
+                        <div class="form-group">
+                            <label  for="loginType">Select Catagories</label>
 
-    <div class="form-group">
-        <div class="col-xs-5 col-xs-offset-1">
-            <button type="submit" class="btn btn-default">Submit</button>
-        </div>
-    </div>
-</form>
+                            <div>
+                                <select name="collectionName" class="form-control" id="collectionName" required>
+                                  <option value="">Select Catagories</option>
+                                  <option value="academic">Academic Qualification</option>
+                                  <option value="trainingExperience">Training Experience</option>
+                                  <option value="researchInfo">Research</option>  
+                                  <option value="publication">Publication</option>  
+                                  <option value="award">Award</option>  
+                                  <option value="preEmployment">Per Employment</option>  
+                              </select>  
+                          </div>
+                      </div>
+
+                      <div class="form-group">
+                          <input class="form-control" placeholder="Enter corresponding ID" id="id" name="id" type="text" autofocus required>
+                      </div>
 
 
-</div> <!-- End main container -->
+                      <!-- Change this to a button or input when using this as a form -->
+                      <button type="button" id="deletebtn" class="btn btn-lg btn-success btn-block">Delete info</button>
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $("#deletebtn").click(function(event) {
+        var id = $("#id").val();
+        var collection = $("#collectionName").val();
 
-<script>
-$(document).ready(function() {
-    var titleValidators = {
-            row: '.col-xs-4',   // The title is placed inside a <div class="col-xs-4"> element
-            validators: {
-                notEmpty: {
-                    message: 'The title is required'
-                }
-            }
-        },
-        isbnValidators = {
-            row: '.col-xs-4',
-            validators: {
-                notEmpty: {
-                    message: 'The ISBN is required'
-                },
-                isbn: {
-                    message: 'The ISBN is not valid'
-                }
-            }
-        },
-        priceValidators = {
-            row: '.col-xs-2',
-            validators: {
-                notEmpty: {
-                    message: 'The price is required'
-                },
-                numeric: {
-                    message: 'The price must be a numeric number'
-                }
-            }
-        },
-        bookIndex = 0;
+        if(id!="" && collection!="")
+        {
+            if (confirm("Would you like to Delete?") == true) {
+            $.ajax({
+                url: '/admin/delete/'+collection+'/'+id,
+                type: 'POST',
+                dataType: 'json',
 
-    $('#bookForm')
-        .formValidation({
-            framework: 'bootstrap',
-            icon: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                'book[0].title': titleValidators,
-                'book[0].isbn': isbnValidators,
-                'book[0].price': priceValidators
-            }
-        })
+            })
+            .done(function(result) {
+                $("#id").val("");
+                alert(result);
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+                console.log("complete");
+            });
 
-        // Add button click handler
-        .on('click', '.addButton', function() {
-            bookIndex++;
-            var $template = $('#bookTemplate'),
-                $clone    = $template
-                                .clone()
-                                .removeClass('hide')
-                                .removeAttr('id')
-                                .attr('data-book-index', bookIndex)
-                                .insertBefore($template);
 
-            // Update the name attributes
-            $clone
-                .find('[name="title"]').attr('name', 'book[' + bookIndex + '].title').end()
-                .find('[name="isbn"]').attr('name', 'book[' + bookIndex + '].isbn').end()
-                .find('[name="price"]').attr('name', 'book[' + bookIndex + '].price').end();
+        } else {
 
-            // Add new fields
-            // Note that we also pass the validator rules for new field as the third parameter
-            $('#bookForm')
-                .formValidation('addField', 'book[' + bookIndex + '].title', titleValidators)
-                .formValidation('addField', 'book[' + bookIndex + '].isbn', isbnValidators)
-                .formValidation('addField', 'book[' + bookIndex + '].price', priceValidators);
-        })
+        }
 
-        // Remove button click handler
-        .on('click', '.removeButton', function() {
-            var $row  = $(this).parents('.form-group'),
-                index = $row.attr('data-book-index');
+        }else{
+            $("#id").focus();
+        }
 
-            // Remove fields
-            $('#bookForm')
-                .formValidation('removeField', $row.find('[name="book[' + index + '].title"]'))
-                .formValidation('removeField', $row.find('[name="book[' + index + '].isbn"]'))
-                .formValidation('removeField', $row.find('[name="book[' + index + '].price"]'));
+        
 
-            // Remove element containing the fields
-            $row.remove();
-        });
-});
+        
+        
+    });
+
 </script>
-
-
-

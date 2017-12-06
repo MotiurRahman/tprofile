@@ -1,0 +1,8 @@
+{
+    "name": "t.profile",
+    "type": "api",
+    "description": "teacher description",
+    "version": "1.0",
+    "access": "public",
+    "assets": {}
+}

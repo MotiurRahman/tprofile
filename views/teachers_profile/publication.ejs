@@ -6,7 +6,10 @@
           <tr>
             <th>No.</th>
             <th>Publication Details(Name,year, title,jurnal name, volume, issue, page number)</th>
-           
+            <% if(login){ %>
+           <th>ID</th>
+              <% } %>
+
 
 
 
@@ -39,7 +42,9 @@
 
 
             </td>
-            
+            <% if(login){ %>
+           <th><%=publication[i]._id%></th>
+              <% } %>
 
 
           </tr>

@@ -7,24 +7,23 @@
             <th>Degree</th>
             <th>Institute</th>
             <th>Passing Year</th>
-
-
-
+            <% if(login){ %>
+           <th>ID</th>
+              <% } %>
           </tr>
         </thead>
         <tbody id="tableBody">
 
-
-
-
           <% for(var i=0; i<academic.length; i++) { %>
-
 
           <tr>
 
           <td><%=academic[i].degree%></td>
             <td><%=academic[i].institute%></td>
             <td><%=academic[i].passYear%></td>
+            <% if(login){ %>
+           <th><%=academic[i]._id%></th>
+              <% } %>
 
           </tr>
 
